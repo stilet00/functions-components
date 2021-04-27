@@ -1,4 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
+import {
+  createTodo,
+  deleteTodo,
+  switchStatus,
+} from "../../../../store/actions/actions";
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -9,22 +14,19 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 export function useTodos(todos, dispatch) {
-  function deleteTodo(id) {
-    dispatch({ type: "delete", payload: id });
+  function handleDelete(id) {
+    dispatch(deleteTodo(id));
   }
-  const createItem = (newItem) => {
-    newItem.completed = false;
-    newItem.id = Math.floor(Date.now());
-    dispatch({ type: "create", payload: newItem });
-  };
-  const toggleItem = (id) => {
+  function handleCreate(newItem) {
+    dispatch(createTodo(newItem));
+  }
+  function handleToggle(id) {
     const item = todos.find((l) => l.id === id);
-    const newItem = { ...item, completed: !item.completed };
-    dispatch({ type: "toggle", payload: newItem });
-  };
+    dispatch(switchStatus(item));
+  }
   return {
-    deleteTodo,
-    createItem,
-    toggleItem,
+    handleDelete,
+    handleCreate,
+    handleToggle,
   };
 }

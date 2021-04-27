@@ -4,11 +4,14 @@ import { connect } from "react-redux";
 import { useStyles, useTodos } from "./hooks";
 function Todos({ todos, dispatch }) {
   const classes = useStyles();
-  const { deleteTodo, createItem, toggleItem } = useTodos(todos, dispatch);
+  const { handleDelete, handleCreate, handleToggle } = useTodos(
+    todos,
+    dispatch
+  );
   return (
     <div className={classes.root}>
-      <TodoList todos={todos} onToggle={toggleItem} onDelete={deleteTodo} />
-      <TodoForm onSave={createItem} />
+      <TodoList todos={todos} onToggle={handleToggle} onDelete={handleDelete} />
+      <TodoForm onSave={handleCreate} />
     </div>
   );
 }
